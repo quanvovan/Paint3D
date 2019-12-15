@@ -10,22 +10,29 @@ namespace Lab04
 {
     public class Camera
     {
-        public double _eyeX, _eyeY, _eyeZ;
-        public double _lookX, _lookY, _lookZ;
-        public double radius;
+        public double eyeX;
+        public double eyeY;
+        public double eyeZ;
+
+        public double lookX;
+        public double lookY;
+        public double lookZ;
+
+        public double R;
         public double theta;
         public double phi;
 
         public Camera()
         {
-            _eyeX = 10;
-            _eyeY = 5;
-            _eyeZ = 10;
-            _lookX = 0;
-            _lookY = 0;
-            _lookZ = 0;
+            eyeX = 10;
+            eyeY = 10;
+            eyeZ = 10;
 
-            ComputeRadius();
+            lookX = 0;
+            lookY = 0;
+            lookZ = 0;
+
+            ComputeR();
             ComputeTheta();
             ComputePhi();
         }
@@ -33,34 +40,34 @@ namespace Lab04
         // Tính góc @theta hiện tại
         public void ComputeTheta()
         {
-            // Trường hợp điểm nhìn không phải gốc tọa độ thì trừ @_lookX
-            theta = Math.Atan((_eyeX - _lookX) / (_eyeZ - _lookZ));
+            // Trường hợp điểm nhìn không phải gốc tọa độ thì trừ @lookX
+            theta = Math.Atan((eyeX - lookX) / (eyeZ - lookZ));
         }
 
         // Tính góc @phi hiện tại
         public void ComputePhi()
         {
-            // // Trường hợp điểm nhìn không phải gốc tọa độ thì trừ @_lookY
-            phi = Math.Asin((_eyeY - _lookY) / radius);
+            // // Trường hợp điểm nhìn không phải gốc tọa độ thì trừ @lookY
+            phi = Math.Asin((eyeY - lookY) / R);
         }
 
         // Tính bán kính của hình cầu khi thay đổi vị trí camera (khoảng cách từ eye đến look)
-        public void ComputeRadius()
+        public void ComputeR()
         {
-            radius = Math.Sqrt(Math.Pow(_eyeX - _lookX, 2)
-                     + Math.Pow(_eyeY - _lookY, 2)
-                     + Math.Pow(_eyeZ - _lookZ, 2));
+            R = Math.Sqrt(Math.Pow(eyeX - lookX, 2)
+                     + Math.Pow(eyeY - lookY, 2)
+                     + Math.Pow(eyeZ - lookZ, 2));
         }
 
         // Phóng to - di chuyển vị trí camera lại gần điểm nhìn
         public void ZoomIn()
         {
-            _eyeX += -0.017f * _eyeX;
-            _eyeY += -0.017f * _eyeY;
-            _eyeZ += -0.017f * _eyeZ;
+            eyeX += -0.017f * eyeX;
+            eyeY += -0.017f * eyeY;
+            eyeZ += -0.017f * eyeZ;
 
             // Khi di chuyển vị trí camera thì bán kính hình cầu sẽ thay đổi nên cần cập nhật lại
-            ComputeRadius();
+            ComputeR();
             ComputeTheta();
             ComputePhi();
         }
@@ -68,12 +75,12 @@ namespace Lab04
         // Thu nhỏ - di chuyển vị trí camera ra xa điểm nhìn
         public void ZoomOut()
         {
-            _eyeX += 0.017f * _eyeX;
-            _eyeY += 0.017f * _eyeY;
-            _eyeZ += 0.017f * _eyeZ;
+            eyeX += 0.017f * eyeX;
+            eyeY += 0.017f * eyeY;
+            eyeZ += 0.017f * eyeZ;
 
             // Khi di chuyển vị trí camera thì bán kính hình cầu sẽ thay đổi nên cần cập nhật lại
-            ComputeRadius();
+            ComputeR();
             ComputeTheta();
             ComputePhi();
         }
@@ -82,25 +89,25 @@ namespace Lab04
         public void RotateRight()
         {
             theta += 0.017;
-            _eyeX = _lookX + radius * Math.Cos(phi) * Math.Sin(theta);
-            _eyeZ = _lookZ + radius * Math.Cos(phi) * Math.Cos(theta);
+            eyeX = lookX + R * Math.Cos(phi) * Math.Sin(theta);
+            eyeZ = lookZ + R * Math.Cos(phi) * Math.Cos(theta);
         }
 
         // Di chuyển camera quay xung quanh điểm nhìn sang trái 
         public void RotateLeft()
         {
             theta -= 0.017;
-            _eyeX = _lookX + radius * Math.Cos(phi) * Math.Sin(theta);
-            _eyeZ = _lookZ + radius * Math.Cos(phi) * Math.Cos(theta);
+            eyeX = lookX + R * Math.Cos(phi) * Math.Sin(theta);
+            eyeZ = lookZ + R * Math.Cos(phi) * Math.Cos(theta);
         }
 
         // Di chuyển camera quay xung quanh điểm nhìn lên trên
         public void RotateUp()
         {
             phi += 0.017;
-            _eyeY = _lookY + radius * Math.Sin(phi);
-            _eyeZ = _lookZ + radius * Math.Cos(phi) * Math.Cos(theta);
-            _eyeX = _lookX + radius * Math.Cos(phi) * Math.Sin(theta);
+            eyeY = lookY + R * Math.Sin(phi);
+            eyeZ = lookZ + R * Math.Cos(phi) * Math.Cos(theta);
+            eyeX = lookX + R * Math.Cos(phi) * Math.Sin(theta);
         }
 
         // Di chuyển camera quay xung quanh điểm nhìn xuống dưới
@@ -108,9 +115,9 @@ namespace Lab04
         {
             phi -= 0.017;
 
-            _eyeY = _lookY + radius * Math.Sin(phi);
-            _eyeZ = _lookZ + radius * Math.Cos(phi) * Math.Cos(theta);
-            _eyeX = _lookX + radius * Math.Cos(phi) * Math.Sin(theta);
+            eyeY = lookY + R * Math.Sin(phi);
+            eyeZ = lookZ + R * Math.Cos(phi) * Math.Cos(theta);
+            eyeX = lookX + R * Math.Cos(phi) * Math.Sin(theta);
 
         }
     }

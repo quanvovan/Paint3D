@@ -13,34 +13,35 @@ namespace Lab04
     {
         //public static Stack<Object> stackObject = new Stack<Object>();
         public static List<Object> listObject = new List<Object>();
-        public static Object chooseObject(OpenGLControl openGLControl, int _chooseIcon, Vertex center)
+        public static Object chooseObject(OpenGLControl openGLControl, int chooseIcon, Point3D center)
         {
-            Object _chooseObject = null;
+            Object chooseObject = null;
 
             /*Choose a shape */
 
-            switch (_chooseIcon)
+            switch (chooseIcon)
             {
                 case 1://Cube
-                    _chooseObject = new Cube();//màu nền, tâm, chiều dài cạnh, check đang chọn
+                    chooseObject = new Cube();//màu nền, tâm, chiều dài cạnh, check đang chọn
                     break;
                 case 2://Pyramid - Hình chóp đáy là hình vuông
-                    _chooseObject = new Pyramid(); //màu nền, tâm, chiều dài cạnh, check đang chọn, đỉnh chóp
+                    chooseObject = new Pyramid(); //màu nền, tâm, chiều dài cạnh, check đang chọn, đỉnh chóp
                     break;
                 case 3://Prism - Hình lăng trụ đáy là tam giác đều 
-                    _chooseObject = new Prism();//màu nền, tâm, chiều dài cạnh, check đang chọn
+                    chooseObject = new Prism();//màu nền, tâm, chiều dài cạnh, check đang chọn
                     break;
                 //xem lại chú thích
                 default:
                     break;
             }
-            if (_chooseObject != null) // nếu tạo được object
+            if (chooseObject != null) // nếu tạo được object
             {
-                _chooseObject.name += Object.countObjects.ToString();
-                listObject.Add(_chooseObject);
+                string name;
+                chooseObject.name = Object.nums.ToString() + "." + chooseObject.name;
+                listObject.Add(chooseObject);
             }
 
-            return _chooseObject;
+            return chooseObject;
         }
 
         /*

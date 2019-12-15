@@ -21,7 +21,7 @@ namespace Lab04
             type = 0;
             isTexture = false;
             texture = new Texture();
-
+            name = "cube";
         }
         public void initPoint()
         {
@@ -76,10 +76,11 @@ namespace Lab04
                 DrawTexture(gl);
             else
                 DrawRaw(gl);
+
             //Viền khung
-            VienKhung(gl);
+            border(gl);
             gl.PopMatrix();
-            gl.Flush();// Thực hiện lệnh vẽ ngay lập tức thay vì đợi sau 1 khoảng thời gian
+            gl.Flush();
         }
 
         private void DrawRaw(OpenGL gl)
@@ -165,7 +166,7 @@ namespace Lab04
             gl.TexCoord(0.0f, 1.0f); gl.Vertex(A.x , A.y , A.z); //V1
             gl.TexCoord(0.0f, 0.0f); gl.Vertex(F.x , F.y , F.z);//V6
             gl.TexCoord(1.0f, 0.0f); gl.Vertex(G.x , G.y , G.z);//V7
-            gl.TexCoord(1.0f, 1.0f); gl.Vertex(E.x , E.y , E.z);//V4
+            gl.TexCoord(1.0f, 1.0f); gl.Vertex(D.x , D.y , D.z);//V4
 
             //Left face
             gl.TexCoord(0.0f, 1.0f); gl.Vertex(F.x , F.y , F.z);//V6
@@ -190,14 +191,14 @@ namespace Lab04
         }
 
 
-        private void VienKhung(OpenGL gl)
+        private void border(OpenGL gl)
         {
             if (Solid) //nếu đang thao tác trên hình
             {
                 //viền cam đậm
-                gl.Color(236 / 255.0, 135 / 255.0, 14 / 255.0);
+                gl.Color(236.0f/ 255.0, 135.0f/ 255.0, 14/ 255.0);
                 //tăng kích cỡ viền
-                gl.LineWidth((float)2);
+                gl.LineWidth((float)3);
             }
             else // nếu không thao tác
             {
@@ -211,48 +212,64 @@ namespace Lab04
             //Vẽ các cạnh
             gl.Vertex(A.x, A.y, A.z);
             gl.Vertex(B.x, B.y, B.z);
+            gl.End();
 
+            gl.Begin(OpenGL.GL_LINES);
             gl.Vertex(B.x, B.y, B.z);
             gl.Vertex(C.x, C.y, C.z);
+            gl.End();
 
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(C.x, C.y, C.z);
             gl.Vertex(D.x, D.y, D.z);
+            gl.End();
 
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(A.x, A.y, A.z);
             gl.Vertex(D.x, D.y, D.z);
+            gl.End();
 
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(B.x, B.y, B.z);
             gl.Vertex(E.x, E.y, E.z);
+            gl.End();
 
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(F.x, F.y, F.z);
             gl.Vertex(E.x, E.y, E.z);
+            gl.End();
 
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(F.x, F.y, F.z);
             gl.Vertex(A.x, A.y, A.z);
+            gl.End();
 
-
+            gl.Begin(OpenGL.GL_LINES);
             gl.Vertex(F.x, F.y, F.z);
             gl.Vertex(G.x, G.y, G.z);
+            gl.End();
 
-
+            gl.Begin(OpenGL.GL_LINES);
             gl.Vertex(D.x, D.y, D.z);
             gl.Vertex(G.x, G.y, G.z);
+            gl.End();
 
-
+            gl.Begin(OpenGL.GL_LINES);
             gl.Vertex(E.x, E.y, E.z);
             gl.Vertex(H.x, H.y, H.z);
+            gl.End();
 
-
+            gl.Begin(OpenGL.GL_LINES);
             gl.Vertex(G.x, G.y, G.z);
             gl.Vertex(H.x, H.y, H.z);
+            gl.End();
 
-
-
+            gl.Begin(OpenGL.GL_LINES);
             gl.Vertex(C.x, C.y, C.z);
             gl.Vertex(H.x, H.y, H.z);
             gl.End();

@@ -22,7 +22,7 @@ namespace Lab04
             Solid = false; //check xem có đang thao tác trên hình này không
             alpha = 2 * Math.PI / 3;
             type = 2;
-            
+            name = "prism";
         }
         public void InitPoint()
         {
@@ -98,12 +98,12 @@ namespace Lab04
 
             gl.End();
 
-            VienKhung(gl);
+            border(gl);
             gl.PopMatrix();
             gl.Flush();// Thực hiện lệnh vẽ ngay lập tức thay vì đợi sau 1 khoảng thời gian
         }
 
-        private void VienKhung(OpenGL gl)
+        private void border(OpenGL gl)
         {
             if (Solid) //nếu đang thao tác trên hình
             {
@@ -124,32 +124,48 @@ namespace Lab04
             //Vẽ các cạnh
             gl.Vertex(A.x, A.y, A.z); // V1
             gl.Vertex(B.x, B.y, B.z); // V2
-
-            gl.Vertex(B.x, B.y, B.z); // V2
-            gl.Vertex(C.x, C.y, C.z); // V3
-
-            gl.Vertex(A.x, A.y, A.z); // V1
-            gl.Vertex(C.x, C.y, C.z); // V3
-
-            gl.Vertex(A.x, A.y, A.z); // V1
-            gl.Vertex(D.x, D.y, D.z); // V4
-
-            gl.Vertex(B.x, B.y, B.z); // V2
-            gl.Vertex(E.x, E.y, E.z); // V5
-
-            gl.Vertex(C.x, C.y, C.z); // V3
-            gl.Vertex(F.x, F.y, F.z); // V6
-
-            gl.Vertex(D.x, D.y, D.z); // V4
-            gl.Vertex(E.x, E.y, E.z); // V5
-
-            gl.Vertex(F.x, F.y, F.z); // V6
-            gl.Vertex(D.x, D.y, D.z); // V4
-
-            gl.Vertex(F.x, F.y, F.z); // V6
-            gl.Vertex(E.x, E.y, E.z); // V5
-
             gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(B.x, B.y, B.z); // V2
+            gl.Vertex(C.x, C.y, C.z); // V3
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(A.x, A.y, A.z); // V1
+            gl.Vertex(C.x, C.y, C.z); // V3
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(A.x, A.y, A.z); // V1
+            gl.Vertex(D.x, D.y, D.z); // V4
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(B.x, B.y, B.z); // V2
+            gl.Vertex(E.x, E.y, E.z); // V5
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(C.x, C.y, C.z); // V3
+            gl.Vertex(F.x, F.y, F.z); // V6
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(D.x, D.y, D.z); // V4
+            gl.Vertex(E.x, E.y, E.z); // V5
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(F.x, F.y, F.z); // V6
+            gl.Vertex(D.x, D.y, D.z); // V4
+            gl.End();
+
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(F.x, F.y, F.z); // V6
+            gl.Vertex(E.x, E.y, E.z); // V5
+            gl.End();
+
         }
 
         ~Prism()

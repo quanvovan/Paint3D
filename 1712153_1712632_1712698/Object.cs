@@ -24,7 +24,7 @@ namespace Lab04
         public bool Solid; //check xem có đang thao tác trên hình này không
         public string name;
         public double type;
-        public static double countObjects = 0;
+        public static double nums = 0; // tính số object
 
         public double angelX, angelY, angelZ;
         public double tX, tY, tZ;
@@ -60,7 +60,7 @@ namespace Lab04
             get { return this.name; }
             set { this.name = value; }
         }
-        public double GetCount() { return countObjects; }
+        public double GetCount() { return nums; }
 
         ~Object()
         {

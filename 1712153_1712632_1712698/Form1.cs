@@ -15,14 +15,10 @@ namespace Lab04
     public partial class SharpGLFrom : Form
     {
         Camera cam = new Camera();
-        OpenFileDialog openfd = new OpenFileDialog();
-        static int chooseIcon = 0;
-        //double length = 2.0;
-        //double height = 5.0;
-        //float size = 2.0f;
-        //Color color = Color.White;
-        //public bool solid = false;
-        Background background = new Background();
+        //OpenFileDialog openfd = new OpenFileDialog();
+        static int shapeType = 0; // chọn chế độ vẽ
+        
+        
         bool existObject = false;
 
 
@@ -32,6 +28,28 @@ namespace Lab04
         {
             InitializeComponent();
         }
+
+        private void btnCube_Click(object sender, EventArgs e)
+        {
+            is_create = true;
+            shapeType = 1;
+            Object.nums++;
+        }
+
+        private void btnPyramid_Click(object sender, EventArgs e)
+        {
+            is_create = true;
+            shapeType = 2;
+            Object.nums++;
+        }
+
+        private void btnPrism_Click(object sender, EventArgs e)
+        {
+            is_create = true;
+            shapeType = 3;
+            Object.nums++;
+        }
+
         private void openGLControl_OpenGLInitialized(object sender, EventArgs e)
         {
             // Get the OpenGL object.
@@ -51,7 +69,7 @@ namespace Lab04
             // Set the ModelView matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             // Create a perspective transformation.
-            gl.LookAt(cam._eyeX, cam._eyeY, cam._eyeZ, cam._lookX, cam._lookY, cam._lookZ, 0, 1, 0);
+            gl.LookAt(cam.eyeX, cam.eyeY, cam.eyeZ, cam.lookX, cam.lookY, cam.lookZ, 0, 1, 0);
             gl.MatrixMode(OpenGL.GL_PROJECTION);
             gl.Perspective(60, openGLControl.Width * 1f / openGLControl.Height, 1, 50);
             gl.Viewport(0, 0, openGLControl.Width, openGLControl.Height);
@@ -62,13 +80,11 @@ namespace Lab04
             OpenGL gl = openGLControl.OpenGL;
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            // Set the projection matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
-            // Load the identity.
             gl.LoadIdentity();
-            // Create a perspective transformation.
-            gl.LookAt(cam._eyeX, cam._eyeY, cam._eyeZ, cam._lookX, cam._lookY, cam._lookZ, 0, 1, 0);
+            gl.LookAt(cam.eyeX, cam.eyeY, cam.eyeZ, cam.lookX, cam.lookY, cam.lookZ, 0, 1, 0);
 
+            Background background = new Background();
             background.Draw(openGLControl, 100);
 
             //Nếu đang chọn hình để vẽ
@@ -80,8 +96,9 @@ namespace Lab04
                     prev_index = -1;
                 }
                 //Vertex top = new Vertex(0, height / 2, 0);
-                Vertex center = new Vertex(0, 0, 0);
-                Draw.chooseObject(openGLControl, chooseIcon, center);
+                Point3D center;
+                center.x = center.y = center.z = 0;
+                Draw.chooseObject(openGLControl, shapeType, center);
                 List_Object.Items.Add(Draw.listObject[Draw.listObject.Count - 1]);
                 List_Object.DisplayMember = "Name";
                 is_create = false;
@@ -91,9 +108,9 @@ namespace Lab04
 
             gl.Flush();// Thực hiện lệnh vẽ ngay lập tức thay vì đợi sau 1 khoảng thời gian
 
-            lbCamPosX.Text = Math.Round(cam._eyeX, 3).ToString();
-            lbCamPosY.Text = Math.Round(cam._eyeY, 3).ToString();
-            lbCamPosZ.Text = Math.Round(cam._eyeZ, 3).ToString();
+            lbCamPosX.Text = Math.Round(cam.eyeX, 3).ToString();
+            lbCamPosY.Text = Math.Round(cam.eyeY, 3).ToString();
+            lbCamPosZ.Text = Math.Round(cam.eyeZ, 3).ToString();
         }
 
         //Xử lý sự kiện nhấn nút chọn màu
@@ -106,7 +123,7 @@ namespace Lab04
             }
         }
 
-        //Nhận các phím Z, X, Left, Right, Up, Down thao tác với camera
+        //thao tác camera
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             OpenGL gl = openGLControl.OpenGL;
@@ -115,52 +132,28 @@ namespace Lab04
                 cam.ZoomIn();
             if (keyData == Keys.X)
                 cam.ZoomOut();
-            if (keyData == Keys.Left)
+            if (keyData == Keys.A)
                 cam.RotateLeft();
-            if (keyData == Keys.Right)
+            if (keyData == Keys.D)
                 cam.RotateRight();
-            if (keyData == Keys.Up)
+            if (keyData == Keys.W)
                 cam.RotateUp();
-            if (keyData == Keys.Down)
+            if (keyData == Keys.S)
                 cam.RotateDown();
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        // Nút chọn vẽ Cube
-        private void btnCube_Click(object sender, EventArgs e)
-        {
-            is_create = true;
-            chooseIcon = 1;
-            Object.countObjects++;
-        }
-
-        // Nút chọn vễ Pyramid 
-        private void btnPyramid_Click(object sender, EventArgs e)
-        {
-            is_create = true;
-            chooseIcon = 2;
-            Object.countObjects++;
-        }
-
-        // Nút chọn vễ Prism
-        private void btnPrism_Click(object sender, EventArgs e)
-        {
-            is_create = true;
-            chooseIcon = 3;
-            Object.countObjects++;
-        }
-
         // Xử lý sự kiện click vào List object
         private void lboxObjectsList_MouseClick(object sender, MouseEventArgs e)
         {
-            // Get vị trí click chuột
+            // vị trí click chuột
             int index = this.List_Object.IndexFromPoint(e.Location);
 
             // Nếu chưa có đối tượng nào được tạo và chọn
             if (existObject == false && index != -1)
             {
-                // Bậc textbox length của đối tượng được chọn
+                // Bậc textbox của đối tượng được chọn
                 tbShapeSize1.Enabled = true;
 
                 // Bậc text box scale của đối tượng được chọn
@@ -337,11 +330,12 @@ namespace Lab04
         // Chọn hình để dán texture
         private void btnOpenTextureFile_Click_1(object sender, EventArgs e)
         {
+            OpenFileDialog openFile = new OpenFileDialog();
             if (prev_index != -1)
             {
-                if (openfd.ShowDialog() == DialogResult.OK)
+                if (openFile.ShowDialog() == DialogResult.OK)
                 {
-                    tbTexturePath.Text = openfd.FileName.ToString();
+                    tbTexturePath.Text = openFile.FileName.ToString();
                     pbShowTexture.BackgroundImage = Image.FromFile(tbTexturePath.Text);
                     Texture texture = new Texture();
                     texture.Create(openGLControl.OpenGL, tbTexturePath.Text);

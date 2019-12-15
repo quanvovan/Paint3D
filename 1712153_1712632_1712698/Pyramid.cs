@@ -22,9 +22,7 @@ namespace Lab04
             isTexture = false;
             texture = new Texture();
 
-            angelX = angelY = angelZ = 0;
-            tX = tY = tZ = 0;
-            sX = sY = sZ = 1;
+            name = "Pyramid";
         }
         public void InitPoint()
         {
@@ -52,7 +50,7 @@ namespace Lab04
                 DrawTexture(gl);
             else
                 DrawRaw(gl);
-            VienKhung(gl);
+            border(gl);
             gl.PopMatrix();
             gl.Flush();
         }
@@ -143,7 +141,7 @@ namespace Lab04
             gl.Disable(OpenGL.GL_TEXTURE_2D);
         }
 
-        private void VienKhung(OpenGL gl)
+        private void border(OpenGL gl)
         {
             if (Solid) //nếu đang thao tác trên hình
             {
