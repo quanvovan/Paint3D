@@ -12,45 +12,44 @@ namespace Lab04
     class Prism : Object
     {
         public List<Vertex> listVertex;
-        private double R_bot;
-        private double alpha;
+        
         Point3D A, B, C, D, E, F;
 
         public Prism() //màu nền, tâm, chiều dài cạnh, check đang chọn
         {
             center.x = center.y = center.z = 0;
             Solid = false; //check xem có đang thao tác trên hình này không
-            alpha = 2 * Math.PI / 3;
             type = 2;
             name = "prism";
         }
         public void InitPoint()
         {
-            R = height / 2;
+            R = length * Math.Sqrt(3) / 3;
+            double alpha = 2 * Math.PI / 3;
 
             A.x = center.x + R;
-            A.y = center.y;
-            A.z = center.z + R ;
+            A.y = center.y - height / 2;
+            A.z = center.z;
 
-            B.x = center.x - R;
-            B.y = center.y - R;
-            B.z = center.z + R;
+            B.x = center.x + R * Math.Cos(alpha);
+            B.y = center.y - height/2;
+            B.z = center.z + R*Math.Sin(alpha);
 
-            C.x = center.x - R;
-            C.y = center.y + R;
-            C.z = center.z + R;
+            C.x = center.x + R * Math.Cos(2 * alpha);
+            C.y = center.y - height / 2;
+            C.z = center.z + R * Math.Sin(2 * alpha);
 
-            D.x = center.x + R;
-            D.y = center.y;
-            D.z = center.y - R;
+            D.x = A.x;
+            D.y = A.y+ height;
+            D.z = A.z;
 
-            E.x = center.x - R;
-            E.y = center.y - R;
-            E.z = center.z - R;
+            E.x = B.x;
+            E.y = B.y + height;
+            E.z = B.z;
 
-            F.x = center.x - R;
-            F.y = center.y + R;
-            F.z = center.z - R;
+            F.x = C.x;
+            F.y = C.y + height;
+            F.z = C.z;
         }
         
 

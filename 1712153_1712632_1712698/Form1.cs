@@ -69,7 +69,7 @@ namespace Lab04
             // Set the ModelView matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             // Create a perspective transformation.
-            gl.LookAt(cam.eyeX, cam.eyeY, cam.eyeZ, cam.lookX, cam.lookY, cam.lookZ, 0, 1, 0);
+            gl.LookAt(cam.eyeX, cam.eyeY, cam.eyeZ, cam.lookX, cam.lookY, cam.lookZ, 0, 0, 1);
             gl.MatrixMode(OpenGL.GL_PROJECTION);
             gl.Perspective(60, openGLControl.Width * 1f / openGLControl.Height, 1, 50);
             gl.Viewport(0, 0, openGLControl.Width, openGLControl.Height);
